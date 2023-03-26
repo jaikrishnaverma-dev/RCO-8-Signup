@@ -24,7 +24,8 @@ const initialState = {
 
 const Signup = () => {
   const [state, setState] = useState(initialState);
-  const captchaMsg = useRef(null);
+  const [darkMode, setDarkMode] = useState(true);
+  const captchaMsg = useRef();
   // responsible for generate captcha of 5 character
   const captchaGenerator = () => {
     let uniqueChar = "";
@@ -39,11 +40,17 @@ const Signup = () => {
   // generate captcha when component mounted and when removed clear the ref
   useEffect(() => {
     captchaGenerator();
-    // cleanup code
-    return () => {
-      captchaMsg.current = null;
-    };
   }, []);
+
+  // cleanup code
+  useEffect(
+    () => () => {
+      return () => {
+        captchaMsg.current = null;
+      };
+    },
+    []
+  );
 
   // validation & controlled done by this function
   const formHandler = (event) => {
@@ -104,8 +111,14 @@ const Signup = () => {
   // signup form render
   return (
     <>
-      <div className="container">
+      <div className={`container ${darkMode ? "container--dark" : ""}`}>
         <div className="form">
+          <button
+            className="btn--switch"
+            onClick={() => setDarkMode((prev) => !darkMode)}
+          >
+            Switch to {darkMode ? "Light" : "Dark"} mode
+          </button>
           <h2 className="form-heading">Sign Up Form</h2>
           {Object.entries(state.form).map(([key, val]) => (
             <>
@@ -115,7 +128,7 @@ const Signup = () => {
                     src={
                       key === "confirm_password" ? "password.png" : key + ".png"
                     }
-                    alt=""
+                    alt="password"
                   />
                 </div>
                 <input
@@ -157,7 +170,7 @@ const Signup = () => {
                 <img
                   onClick={() => captchaGenerator()}
                   src="Steve-Zondicons-Refresh.svg"
-                  alt=""
+                  alt="refresh"
                 />
               </div>
               <input
