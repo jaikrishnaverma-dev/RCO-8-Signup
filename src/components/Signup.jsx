@@ -79,7 +79,8 @@ const Signup = () => {
   };
 
   //  when form submitted then check all sides completed or not
-  const submitHandler = () => {
+  const submitHandler = (event) => {
+   event.preventDefault();
     let flag = true;
     Object.entries(state.form).forEach((key, val) => {
       if (val.msg) {
@@ -112,7 +113,7 @@ const Signup = () => {
   return (
     <>
       <div className={`container ${darkMode ? "container--dark" : ""}`}>
-        <div className="form">
+        <form className="form" onSubmit={submitHandler}>
           <button
             className="btn--switch"
             onClick={() => setDarkMode((prev) => !darkMode)}
@@ -193,10 +194,10 @@ const Signup = () => {
               />
             </div>
           </div>
-          <button className="btn" onClick={submitHandler}>
+          <button className="btn" type="submit">
             SUBMIT
           </button>
-        </div>
+        </form>
       </div>
     </>
   );
