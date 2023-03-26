@@ -24,7 +24,7 @@ const initialState = {
 
 const Signup = () => {
   const [state, setState] = useState(initialState);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const captchaMsg = useRef();
   // responsible for generate captcha of 5 character
   const captchaGenerator = () => {
@@ -80,7 +80,7 @@ const Signup = () => {
 
   //  when form submitted then check all sides completed or not
   const submitHandler = (event) => {
-   event.preventDefault();
+    event.preventDefault();
     let flag = true;
     Object.entries(state.form).forEach((key, val) => {
       if (val.msg) {
